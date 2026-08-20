@@ -107,3 +107,81 @@ sources:
     min_bytes: 10000
     max_bytes: 200000
     required_markers: ["# API Overview", "## Get API Key"]
+  - provider: alibaba
+    slug: deprecations
+    catalog_provider: qwen
+    format: html
+    url: https://www.alibabacloud.com/help/en/model-studio/model-depreciation
+    html_selector: article.product-description
+    max_download_bytes: 2000000
+    min_bytes: 5000
+    max_bytes: 200000
+    required_markers: ["## Retirement impact", "## Deprecated models"]
+  - provider: bedrock
+    slug: model-lifecycle
+    catalog_provider: amazon
+    format: html
+    url: https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle.html
+    html_selector: "#main-col-body"
+    max_download_bytes: 2000000
+    min_bytes: 7000
+    max_bytes: 200000
+    required_markers: ["# Model lifecycle", "## Legacy and end-of-life (EOL) models"]
+  - provider: deepseek
+    slug: updates
+    catalog_provider: deepseek
+    format: html
+    url: https://api-docs.deepseek.com/updates/
+    html_selector: article
+    max_download_bytes: 2000000
+    min_bytes: 8000
+    max_bytes: 200000
+    required_markers: ["# Change Log", "## Date:"]
+  - provider: google
+    slug: deprecations
+    catalog_provider: google
+    format: html
+    url: https://ai.google.dev/gemini-api/docs/deprecations
+    html_selector: .devsite-article
+    max_download_bytes: 2000000
+    min_bytes: 8000
+    max_bytes: 200000
+    required_markers: ["# Gemini deprecations", "## Embedding models"]
+  - provider: mistral
+    slug: models
+    catalog_provider: mistral
+    format: html
+    url: https://docs.mistral.ai/models
+    html_selector: 'article[data-page-content="true"]'
+    max_download_bytes: 2000000
+    min_bytes: 10000
+    max_bytes: 200000
+    required_markers: ["# Models Overview", "### Deprecated & retired models"]
+  - provider: thinking-machines
+    slug: model-deprecations
+    format: html
+    url: https://tinker-docs.thinkingmachines.ai/tinker/model-deprecations/
+    html_selector: article.md-content__inner
+    max_download_bytes: 2000000
+    min_bytes: 2000
+    max_bytes: 200000
+    required_markers: ["# Model Deprecations", "## Recommended replacements"]
+  - provider: vertex
+    slug: model-versions
+    format: html
+    url: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/model-versions
+    html_selector: .devsite-article
+    max_download_bytes: 2000000
+    min_bytes: 4000
+    max_bytes: 200000
+    required_markers: ["# Model versions and lifecycle", "### Retired models"]
+  - provider: xiaomi
+    slug: deprecations
+    catalog_provider: xiaomi
+    format: html
+    url: https://mimo.mi.com/docs/en-US/updates/deprecate
+    html_selector: .mdxContent
+    max_download_bytes: 2000000
+    min_bytes: 1500
+    max_bytes: 200000
+    required_markers: ["# Model Deprecation", "### Deprecated model"]

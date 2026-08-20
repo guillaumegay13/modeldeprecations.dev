@@ -14,10 +14,21 @@ const validSource = {
   provider: "openai",
   slug: "deprecations",
   catalog_provider: "openai",
+  format: "markdown",
   url: "https://example.com/deprecations.md",
   min_bytes: 100,
   max_bytes: 1000,
   required_markers: ["Deprecations"],
+};
+
+const validHtmlSource = {
+  ...validSource,
+  provider: "google",
+  catalog_provider: undefined,
+  format: "html",
+  url: "https://example.com/deprecations",
+  html_selector: "article",
+  max_download_bytes: 2000,
 };
 
 afterEach(async () => {
@@ -45,6 +56,24 @@ describe("source registry", () => {
     );
   });
 
+  it("loads an HTML source with bounded conversion fields", async () => {
+    const { file, models } = await fixture([validHtmlSource]);
+    const result = await loadSourceRegistry(file, models);
+    expect(result.issues).toEqual([]);
+    expect(result.registry!.sources[0]).toMatchObject({
+      format: "html",
+      html_selector: "article",
+      max_download_bytes: 2000,
+    });
+  });
+
+  it("defaults existing registry rows to markdown", async () => {
+    const { file, models } = await fixture([{ ...validSource, format: undefined }]);
+    const result = await loadSourceRegistry(file, models);
+    expect(result.issues).toEqual([]);
+    expect(result.registry!.sources[0]!.format).toBe("markdown");
+  });
+
   it.each([
     ["unknown provider", { provider: "not-modelparams" }],
     ["legacy provider slug", { provider: "zai" }],
@@ -54,6 +83,11 @@ describe("source registry", () => {
     ["URL credentials", { url: "https://user@example.com/deprecations.md" }],
     ["URL fragment", { url: "https://example.com/deprecations.md#part" }],
     ["non-markdown URL", { url: "https://example.com/deprecations" }],
+    ["HTML source without selector", { ...validHtmlSource, html_selector: undefined }],
+    ["HTML source without download bound", { ...validHtmlSource, max_download_bytes: undefined }],
+    ["invalid HTML selector", { ...validHtmlSource, html_selector: "[" }],
+    ["unbounded HTML download", { ...validHtmlSource, max_download_bytes: 5_000_001 }],
+    ["markdown source with HTML fields", { html_selector: "article" }],
     ["empty markers", { required_markers: [] }],
     ["inverted bounds", { max_bytes: 50 }],
     ["unknown field", { extra: true }],
