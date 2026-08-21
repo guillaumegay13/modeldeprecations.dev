@@ -22,6 +22,7 @@ The GA version of DeepSeek V4 Pro greatly enhances agent capabilities, with part
 - AutomationBench (Public): 31.8
 - DSBench-FullStack: 71.1
 - DSBench-Hard: 67.2
+
 **Native support for the Responses API**
 
 The DeepSeek API now natively supports the OpenAI Responses API format and is specifically adapted for Codex. Users can refer to the [official documentation](/quick%5Fstart/agent%5Fintegrations/codex) and complete the Codex configuration with a one-click configuration script.
@@ -45,6 +46,7 @@ For more details, please refer to [this documentation](/news/news260813).
 The official release of the DeepSeek-V4-Flash API is now in public beta. The API calling method remains unchanged — simply set the model name to `deepseek-v4-flash` to use the latest version.
 
 **Significantly enhanced agent capabilities, with benchmark results far exceeding V4-Pro-Preview:**
+
 - Terminal Bench 2.1: 82.7
 - NL2Repo: 54.2
 - Cybergym: 76.7
@@ -63,6 +65,7 @@ Note 2: DSBench-FullStack is an internal full-stack development test set, and DS
 **DeepSeek-V4-Flash-0731 keeps the same model architecture and size as DeepSeek-V4-Flash-Preview, and was only re-post-trained.**
 
 **Note: This update only upgrades the DeepSeek-V4-Flash API. The DeepSeek-V4-Pro API and the APP/WEB models are unchanged.**
+
 **The official release of DeepSeek-V4-Pro will follow soon.**
 
 ---

@@ -73,13 +73,13 @@ export const SourceEntrySchema = z
   })
   .strict()
   .superRefine((source, ctx) => {
-    let pathname: string;
+    let pathname: string | undefined;
     try {
       pathname = new URL(source.url).pathname;
     } catch {
-      return;
+      pathname = undefined;
     }
-    if (source.format === "markdown" && !pathname.endsWith(".md")) {
+    if (source.format === "markdown" && pathname && !pathname.endsWith(".md")) {
       ctx.addIssue({ code: "custom", path: ["url"], message: "path must end in .md" });
     }
     if (source.format === "html" && !source.html_selector) {

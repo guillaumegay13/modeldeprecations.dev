@@ -46,10 +46,14 @@ function parseRetryAfter(value: string | null, now: number): number | undefined 
   return Math.min(Math.max(date - now, 0), MAX_RETRY_DELAY_MS);
 }
 
-async function readBounded(response: Response, maxBytes: number): Promise<Buffer> {
+async function readBounded(
+  response: Response,
+  maxBytes: number,
+  limitName: "max_bytes" | "max_download_bytes",
+): Promise<Buffer> {
   const stated = response.headers.get("content-length");
   if (stated && Number(stated) > maxBytes) {
-    throw new SourceFetchError("too_large", "response exceeds max_bytes");
+    throw new SourceFetchError("too_large", `response exceeds ${limitName}`);
   }
   if (!response.body) return Buffer.alloc(0);
 
@@ -61,7 +65,7 @@ async function readBounded(response: Response, maxBytes: number): Promise<Buffer
     size += chunk.value.byteLength;
     if (size > maxBytes) {
       await reader.cancel();
-      throw new SourceFetchError("too_large", "response exceeds max_bytes");
+      throw new SourceFetchError("too_large", `response exceeds ${limitName}`);
     }
     chunks.push(chunk.value);
     chunk = await reader.read();
@@ -157,7 +161,8 @@ async function oneAttempt(
       throw new SourceFetchError("content_type", `source did not return ${expectedType}`);
     }
     const maxDownloadBytes = source.max_download_bytes ?? source.max_bytes;
-    const body = prepareBody(source, await readBounded(response, maxDownloadBytes));
+    const limitName = source.format === "html" ? "max_download_bytes" : "max_bytes";
+    const body = prepareBody(source, await readBounded(response, maxDownloadBytes, limitName));
     validateBody(source, body, baseline);
     return body;
   } catch (error) {

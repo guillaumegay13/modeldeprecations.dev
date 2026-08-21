@@ -63,8 +63,6 @@ Short-term availability models retire 45 days after a replacement model is relea
 
 ### Retired models
 
-#### The following table lists the retired models (click to expand)
-
 | Model ID                             | Release date       | Retirement date    | Recommended upgrade    |
 | ------------------------------------ | ------------------ | ------------------ | ---------------------- |
 | gemini-2.0-flash                     | February 5, 2025   | June 1, 2026       | gemini-3.1-flash-lite  |
@@ -99,6 +97,6 @@ However, if you don't have time to follow the guide and just need to quickly res
 
 Resource
 
-### [Deployment and endpoint locations ](/gemini-enterprise-agent-platform/resources/locations)
+### [Deployment and endpoint locations](/gemini-enterprise-agent-platform/resources/locations)
 
 Learn about deployment and endpoint locations for models in Agent Platform.

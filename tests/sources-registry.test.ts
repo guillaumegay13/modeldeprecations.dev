@@ -105,6 +105,23 @@ describe("source registry", () => {
     ]);
   });
 
+  it("reports independent HTML diagnostics when the URL is malformed", async () => {
+    const { file, models } = await fixture([
+      {
+        ...validHtmlSource,
+        url: "not a URL",
+        html_selector: undefined,
+        max_download_bytes: undefined,
+        max_bytes: 50,
+      },
+    ]);
+    const message = (await loadSourceRegistry(file, models)).issues[0]!.message;
+    expect(message).toContain("url: Invalid url");
+    expect(message).toContain("html_selector: is required for HTML");
+    expect(message).toContain("max_download_bytes: is required for HTML");
+    expect(message).toContain("max_bytes: must be greater than min_bytes");
+  });
+
   it("rejects a missing catalog provider directory", async () => {
     const { file, models } = await fixture([{ ...validSource, catalog_provider: "missing" }]);
     expect((await loadSourceRegistry(file, models)).issues[0]!.message).toContain(

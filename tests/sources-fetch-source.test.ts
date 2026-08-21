@@ -69,7 +69,7 @@ describe("fetchSource", () => {
   });
 
   it("enforces the raw HTML download bound", async () => {
-    await expectCode(
+    await expect(
       fetchSource({ ...htmlSource, max_download_bytes: 20 }, undefined, {
         fetch: vi.fn(
           async () =>
@@ -78,8 +78,10 @@ describe("fetchSource", () => {
             }),
         ),
       }),
-      "too_large",
-    );
+    ).rejects.toMatchObject({
+      code: "too_large",
+      message: "response exceeds max_download_bytes",
+    });
   });
 
   it("rejects markdown for an HTML source", async () => {

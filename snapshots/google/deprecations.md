@@ -1,6 +1,6 @@
 # Gemini deprecations
 
-This page lists the known deprecation schedules for [stable (GA)](/gemini-api/docs/models#stable) and [preview](/gemini-api/docs/models#preview)models in the Gemini API. A "**deprecation**" is the announcement that we no longer provide support for a model, and that it will be "**shut down**" in the near future. Once a model is "**shutdown**", it is completely turned off, and the endpoint is no longer available.
+This page lists the known deprecation schedules for [stable (GA)](/gemini-api/docs/models#stable) and [preview](/gemini-api/docs/models#preview) models in the Gemini API. A "**deprecation**" is the announcement that we no longer provide support for a model, and that it will be "**shut down**" in the near future. Once a model is "**shutdown**", it is completely turned off, and the endpoint is no longer available.
 
 Deprecation announcements are made on the [Release notes](/gemini-api/docs/changelog) page, and the announced earliest shutdown dates are tracked on this page. Already-shutdown models are indicated with gray backgrounds.
 
@@ -108,17 +108,17 @@ Deprecation announcements are made on the [Release notes](/gemini-api/docs/chang
 
 ## Veo models
 
-| **Model**                     | **Release date**  | **Shutdown date**          | **Recommended replacement**                                                                                                                                                     |
-| ----------------------------- | ----------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| veo-3.0-generate-001          | September 9, 2025 | June 30, 2026              | veo-3.1-generate-previewor the GA models on the [Gemini Enterprise Agent Platform](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/veo/3-1-generate)      |
-| veo-3.0-fast-generate-001     | September 9, 2025 | June 30, 2026              | veo-3.1-fast-generate-previewor the GA models on the [Gemini Enterprise Agent Platform](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/veo/3-1-generate) |
-| veo-2.0-generate-001          | April 9, 2025     | June 30, 2026              | veo-3.1-generate-previewor the GA models on the [Gemini Enterprise Agent Platform](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/veo/3-1-generate)      |
-| Preview models                |                   |                            |                                                                                                                                                                                 |
-| veo-3.1-lite-generate-preview | March 31, 2026    | No shutdown date announced |                                                                                                                                                                                 |
-| veo-3.1-generate-preview      | October 15, 2025  | No shutdown date announced |                                                                                                                                                                                 |
-| veo-3.1-fast-generate-preview | October 15, 2025  | No shutdown date announced |                                                                                                                                                                                 |
-| veo-3.0-generate-preview      | July 31, 2025     | November 12, 2025          | veo-3.1-generate-preview                                                                                                                                                        |
-| veo-3.0-fast-generate-preview | July 31, 2025     | November 12, 2025          | veo-3.1-fast-generate-preview                                                                                                                                                   |
+| **Model**                     | **Release date**  | **Shutdown date**          | **Recommended replacement**                                                                                                                                                      |
+| ----------------------------- | ----------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| veo-3.0-generate-001          | September 9, 2025 | June 30, 2026              | veo-3.1-generate-preview or the GA models on the [Gemini Enterprise Agent Platform](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/veo/3-1-generate)      |
+| veo-3.0-fast-generate-001     | September 9, 2025 | June 30, 2026              | veo-3.1-fast-generate-preview or the GA models on the [Gemini Enterprise Agent Platform](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/veo/3-1-generate) |
+| veo-2.0-generate-001          | April 9, 2025     | June 30, 2026              | veo-3.1-generate-preview or the GA models on the [Gemini Enterprise Agent Platform](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/veo/3-1-generate)      |
+| Preview models                |                   |                            |                                                                                                                                                                                  |
+| veo-3.1-lite-generate-preview | March 31, 2026    | No shutdown date announced |                                                                                                                                                                                  |
+| veo-3.1-generate-preview      | October 15, 2025  | No shutdown date announced |                                                                                                                                                                                  |
+| veo-3.1-fast-generate-preview | October 15, 2025  | No shutdown date announced |                                                                                                                                                                                  |
+| veo-3.0-generate-preview      | July 31, 2025     | November 12, 2025          | veo-3.1-generate-preview                                                                                                                                                         |
+| veo-3.0-fast-generate-preview | July 31, 2025     | November 12, 2025          | veo-3.1-fast-generate-preview                                                                                                                                                    |
 
 ## Lyria models
 
