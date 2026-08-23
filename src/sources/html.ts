@@ -82,26 +82,45 @@ function splitPairedTableCells(root: HTMLElement): void {
 }
 
 function mergeSplitHeaderTables(root: HTMLElement): void {
-  const tables = root.querySelectorAll("table");
-  for (let index = 0; index < tables.length - 1; index += 1) {
-    const headerTable = tables[index]!;
-    const dataTable = tables[index + 1]!;
+  for (const headerTable of root.querySelectorAll("table")) {
     const headerRows = directRows(headerTable);
-    const dataRows = directRows(dataTable);
-    if (headerRows.length !== 1 || dataRows.length === 0) continue;
+    if (headerRows.length !== 1) continue;
+    const headerRow = headerRows[0]!;
+    const headerCells = directCells(headerRow);
+    if (headerCells.length === 0 || !headerCells.every((cell) => cell.rawTagName === "th")) {
+      continue;
+    }
 
-    const headerCells = directCells(headerRows[0]!);
+    let sibling = headerTable.nextElementSibling;
+    if (!sibling) {
+      const container = headerTable.closest('[data-slot="table-container"]');
+      if (container) sibling = container.nextElementSibling;
+    }
+    let dataTable: HTMLElement | null = null;
+    while (sibling) {
+      if (sibling.tagName === "TABLE") {
+        dataTable = sibling as HTMLElement;
+        break;
+      }
+      const nested = sibling.querySelector("table");
+      if (nested) {
+        dataTable = nested;
+        break;
+      }
+      sibling = sibling.nextElementSibling;
+    }
+    if (!dataTable) continue;
+    const dataRows = directRows(dataTable);
+    if (dataRows.length === 0) continue;
     const firstDataCells = directCells(dataRows[0]!);
     if (
-      headerCells.length === 0 ||
-      !headerCells.every((cell) => cell.rawTagName === "th") ||
       firstDataCells.some((cell) => cell.rawTagName === "th") ||
       headerCells.length !== firstDataCells.length
     ) {
       continue;
     }
 
-    dataTable.insertAdjacentHTML("afterbegin", `<thead>${headerRows[0]!.outerHTML}</thead>`);
+    dataTable.insertAdjacentHTML("afterbegin", `<thead>${headerRow.outerHTML}</thead>`);
     const container = headerTable.closest('[data-slot="table-container"]');
     if (container?.querySelectorAll("table").length === 1) container.remove();
     else headerTable.remove();
@@ -120,14 +139,18 @@ function spanValue(cell: HTMLElement, name: "rowspan" | "colspan"): number {
   const raw = cell.getAttribute(name);
   if (raw === undefined) return 1;
   const value = Number(raw);
-  if (!Number.isInteger(value) || value < 1) throw new Error(`invalid table ${name}`);
+  if (!Number.isInteger(value) || value < 0 || (value === 0 && name === "colspan")) {
+    throw new Error(`invalid table ${name}`);
+  }
   return value;
 }
 
 function flattenTableSpans(table: HTMLElement): void {
+  const rows = directRows(table);
   const pending = new Map<number, { html: string; remaining: number }>();
 
-  for (const row of directRows(table)) {
+  for (let rowIndex = 0; rowIndex < rows.length; rowIndex += 1) {
+    const row = rows[rowIndex]!;
     const flattened: string[] = [];
     let column = 0;
 
@@ -141,7 +164,8 @@ function flattenTableSpans(table: HTMLElement): void {
 
     for (const cell of directCells(row)) {
       while (pending.has(column)) appendPending();
-      const rowSpan = spanValue(cell, "rowspan");
+      let rowSpan = spanValue(cell, "rowspan");
+      if (rowSpan === 0) rowSpan = rows.length - rowIndex;
       const columnSpan = spanValue(cell, "colspan");
       for (let span = 0; span < columnSpan; span += 1) {
         while (pending.has(column)) appendPending();
@@ -214,8 +238,8 @@ function normalizeTables(root: HTMLElement): void {
   splitPairedTableCells(root);
   mergeSplitHeaderTables(root);
   for (const table of root.querySelectorAll("table")) {
-    flattenTableSpans(table);
     repairMissingProviderCells(table);
+    flattenTableSpans(table);
     validateTableColumns(table);
   }
   root.querySelectorAll("td br,th br").forEach((lineBreak) => lineBreak.replaceWith(" "));

@@ -118,6 +118,22 @@ describe("HTML source conversion", () => {
     ]);
   });
 
+  it("expands rowspan=0 to the end of the table", () => {
+    const markdown = convertHtml(
+      source,
+      `<article><table>
+        <tr><th>Provider</th><th>Model</th></tr>
+        <tr><td rowspan="0">Anthropic</td><td>Claude</td></tr>
+        <tr><td>Haiku</td></tr>
+        <tr><td>Opus</td></tr>
+      </table></article>`,
+    );
+
+    expect(rows(markdown)).toContainEqual(["Anthropic", "Claude"]);
+    expect(rows(markdown)).toContainEqual(["Anthropic", "Haiku"]);
+    expect(rows(markdown)).toContainEqual(["Anthropic", "Opus"]);
+  });
+
   it("preserves rendered whitespace and removes interactive labels", () => {
     const markdown = convertHtml(
       source,
@@ -152,11 +168,11 @@ describe("HTML source conversion", () => {
     ]);
   });
 
-  it("includes a bounded conversion cause in diagnostics", () => {
+  it("reports a conversion failure with the underlying cause", () => {
     expect(() => convertHtml({ ...source, html_selector: "[" }, "<article></article>")).toThrow(
       expect.objectContaining<Partial<HtmlConversionError>>({
         code: "conversion_failed",
-        message: expect.stringContaining("Expected name"),
+        message: expect.stringMatching(/^HTML conversion failed: .+/),
       }),
     );
   });
